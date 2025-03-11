@@ -56,3 +56,13 @@ fun TODOTheme(
         content = content
     )
 }
+
+enum class Language(
+    val code: String,
+    val title: String
+) {
+    UZ(code = "uz", title = "o'zbekcha"),
+    RU(code = "ru", title = "Русский"),
+    EN(code = "en", title = "English")
+
+}
