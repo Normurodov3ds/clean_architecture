@@ -1,11 +1,9 @@
 package uz.kotlinjon.todo.presentation.screens.profile
 
 import Profile
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -13,11 +11,21 @@ import androidx.navigation.compose.composable
 
 fun NavGraphBuilder.profile(navHostController: NavHostController) {
     composable<Profile> {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Text(
-                text = "Profile",
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
+        val vm = viewModel<ProfileViewModel>()
+        val state by vm.state.collectAsState()
+
+        ProfileScreen(
+            state = state,
+            onEvent = {
+                when(it){
+                    is ProfileEvent.OnBackPressed -> {
+                        navHostController.popBackStack()
+                    }
+
+                    else -> {vm.onEvent(it)}
+                }
+            }
+        )
+
     }
 }
